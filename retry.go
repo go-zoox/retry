@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Retry trys to run fn with times and interval
 func Retry(fn func(), times int, interval time.Duration) error {
 	var err error
 	for i := 0; i < times; i++ {
