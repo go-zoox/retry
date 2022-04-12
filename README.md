@@ -16,34 +16,17 @@ go get github.com/go-zoox/retry
 ## Getting Started
 
 ```go
-func TestMemoryretry(t *testing.T) {
-	m := retry.NewMemory()
-	if m.Size() != 0 {
-		t.Errorf("Expected size 0, got %d", m.Size())
-	}
-
-	m.Set("key", "value")
-	if m.Get("key") != "value" {
-		t.Error("Expected value to be 'value'")
-	}
-
-	if m.Size() != 1 {
-		t.Errorf("Expected size 1, got %d", m.Size())
-	}
-}
+err := retry.Retry(
+	func() {
+		c++
+		if c < 3 {
+			panic("panic error")
+		}
+	},
+	3,
+	time.Millisecond,
+)
 ```
-
-## Engines
-* [x] Memory
-* [x] Redis
-* [ ] MongoDB
-* [x] SQLite
-* [ ] PostgreSQL
-* [ ] MySQL
-* [ ] DynamoDB
-
-## Inspired by
-* [srfrog/dict](https://github.com/srfrog/dict) - Python-like dictionaries for Go
 
 ## License
 GoZoox is released under the [MIT License](./LICENSE).
