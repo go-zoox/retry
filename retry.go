@@ -2,6 +2,7 @@ package retry
 
 import (
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -18,7 +19,7 @@ func Retry(fn func(), times int, interval time.Duration) error {
 					case string:
 						err = errors.New(v)
 					default:
-						err = errors.New("unexpected error")
+						err = fmt.Errorf("unexpected error: %#v", v)
 					}
 				}
 			}()
