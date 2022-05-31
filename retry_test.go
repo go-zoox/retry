@@ -8,11 +8,13 @@ import (
 func TestRetry(t *testing.T) {
 	c := 0
 	if err := Retry(
-		func() {
+		func() error {
 			c++
 			if c < 3 {
 				panic("panic error")
 			}
+
+			return nil
 		},
 		1,
 		time.Millisecond,
@@ -25,11 +27,13 @@ func TestRetry(t *testing.T) {
 
 	c = 0
 	if err := Retry(
-		func() {
+		func() error {
 			c++
 			if c < 3 {
 				panic("panic error")
 			}
+
+			return nil
 		},
 		2,
 		time.Millisecond,
@@ -42,11 +46,13 @@ func TestRetry(t *testing.T) {
 
 	c = 0
 	if err := Retry(
-		func() {
+		func() error {
 			c++
 			if c < 3 {
 				panic("panic error")
 			}
+
+			return nil
 		},
 		3,
 		time.Millisecond,
@@ -59,11 +65,13 @@ func TestRetry(t *testing.T) {
 
 	c = 0
 	if err := Retry(
-		func() {
+		func() error {
 			c++
 			if c < 3 {
 				panic("panic error")
 			}
+
+			return nil
 		},
 		4,
 		time.Millisecond,

@@ -1,35 +1,18 @@
 package retry
 
 import (
-	"errors"
-	"fmt"
 	"time"
+
+	"github.com/go-zoox/safe"
 )
 
 // Retry trys to run fn with times and interval
-func Retry(fn func(), times int, interval time.Duration) error {
+func Retry(fn func() error, times int, interval time.Duration) error {
+	safeFn := safe.Func(fn)
+
 	var err error
 	for i := 0; i < times; i++ {
-		func() {
-			defer func() {
-				if re := recover(); re != nil {
-					switch v := re.(type) {
-					case error:
-						err = v
-					case string:
-						err = errors.New(v)
-					default:
-						err = fmt.Errorf("unexpected error: %#v", v)
-					}
-				}
-			}()
-
-			// reset error before run fn
-			err = nil
-			fn()
-		}()
-
-		if err == nil {
+		if err = safeFn(); err == nil {
 			return nil
 		}
 
